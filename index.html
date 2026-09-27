@@ -1151,11 +1151,9 @@ function toggleDay(header) {
 // ── LESSON DELETE ──
 function deleteLesson(dateStr, idx) {
   showConfirm('Delete this lesson?', () => {
-    const l = schedule[dateStr][idx];
-    if (l.status === 'pending') updateSmsCount(-1);
     schedule[dateStr].splice(idx, 1);
     if (schedule[dateStr].length === 0) delete schedule[dateStr];
-    renderCalendar(); renderCal();
+    renderCalendar(); renderCal(); updateStats();
   });
 }
 
@@ -1173,12 +1171,43 @@ function showConfirm(message, onYes) {
 function markConfirmed(btn, dateStr, idx) {
   schedule[dateStr][idx].status = 'confirmed';
   delete schedule[dateStr][idx].smsText;
-  renderCalendar(); renderCal(); updateSmsCount(-1);
+  renderCalendar(); renderCal(); updateSmsCount(-1); updateStats();
 }
 function markCancelled(btn, dateStr, idx) {
   schedule[dateStr][idx].status = 'cancelled';
   delete schedule[dateStr][idx].smsText;
-  renderCalendar(); renderCal(); updateSmsCount(-1);
+  renderCalendar(); renderCal(); updateSmsCount(-1); updateStats();
+}
+
+function updateStats() {
+  // Count today's lessons
+  const todayLessons = schedule[todayStr] || [];
+  document.getElementById('statToday').textContent = todayLessons.length;
+
+  // Count pending for tomorrow
+  const tomLessons = schedule[tomorrowStr] || [];
+  const pending = tomLessons.filter(l => l.status === 'pending').length;
+  document.getElementById('statPending').textContent = pending;
+
+  // Alert banner
+  const alertBanner = document.getElementById('alertBanner');
+  const alertText = document.getElementById('alertText');
+  if (pending > 0) {
+    alertBanner.hidden = false;
+    alertText.textContent = pending + ' student' + (pending > 1 ? 's haven\'t' : ' hasn\'t') + ' confirmed for tomorrow. Deadline: noon today.';
+  } else {
+    alertBanner.hidden = true;
+  }
+
+  // SMS badge
+  let totalPending = 0;
+  Object.values(schedule).forEach(lessons => {
+    lessons.forEach(l => { if (l.status === 'pending') totalPending++; });
+  });
+  smsCount = totalPending;
+  const badge = document.getElementById('smsBadge');
+  badge.hidden = smsCount === 0;
+  if (smsCount > 0) badge.textContent = smsCount;
 }
 
 let smsCount = 3;
@@ -1323,6 +1352,7 @@ function switchTab(tab, btn) {
 // ── INIT ──
 renderCal();
 renderCalendar();
+updateStats();
 
 // Init theme
 (function() {
