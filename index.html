@@ -228,6 +228,39 @@ body {
   display: flex; align-items: center; justify-content: center; padding: 0 4px;
 }
 
+/* ── DELETE BUTTON ── */
+.delete-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text3); font-size: 13px; line-height: 1;
+  padding: 4px 6px; border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.delete-btn:hover { background: var(--red-bg); color: var(--red); }
+
+/* ── CLIENT CARD with delete ── */
+.client-card { display: flex; align-items: center; }
+
+/* ── THEME SWITCHER ── */
+.theme-switcher { display: flex; gap: 8px; margin-top: 4px; }
+.theme-btn {
+  flex: 1; padding: 10px 8px; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--surface2); color: var(--text2); font-size: 13px; font-weight: 500;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.theme-btn.active { border-color: var(--accent-mid); background: var(--accent-light); color: var(--accent-text); font-weight: 600; }
+
+/* ── CONFIRM MODAL ── */
+.confirm-box {
+  background: var(--surface); border-radius: 16px; padding: 24px 20px;
+  max-width: 300px; width: 90%; margin: auto; text-align: center;
+}
+.confirm-msg { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 20px; }
+.confirm-actions { display: flex; gap: 10px; }
+.confirm-actions button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.confirm-cancel { background: var(--surface2); color: var(--text2); }
+.confirm-delete { background: var(--red); color: #fff; }
+
 .page { display: none; }
 .page.active { display: block; }
 
@@ -572,6 +605,7 @@ body {
           <span class="badge badge-group" style="font-size:10px;padding:2px 7px">Intermediate</span>
         </div>
       </div>
+      <button class="delete-btn" onclick="event.stopPropagation();deleteClient(this)" title="Delete">&#10005;</button>
     </div>
     <div class="client-card" onclick="openClient('Sofia Kim','SK','#2D6A4F')">
       <div class="client-avatar" style="background:#2D6A4F">SK</div>
@@ -583,6 +617,7 @@ body {
           <span class="badge badge-pending" style="font-size:10px;padding:2px 7px">Advanced</span>
         </div>
       </div>
+      <button class="delete-btn" onclick="event.stopPropagation();deleteClient(this)" title="Delete">&#10005;</button>
     </div>
     <div class="client-card" onclick="openClient('Marcus Chen','MC','#5B21B6')">
       <div class="client-avatar" style="background:#5B21B6">MC</div>
@@ -594,6 +629,7 @@ body {
           <span class="badge badge-group" style="font-size:10px;padding:2px 7px">Beginner</span>
         </div>
       </div>
+      <button class="delete-btn" onclick="event.stopPropagation();deleteClient(this)" title="Delete">&#10005;</button>
     </div>
     <div class="client-card" onclick="openClient('Alex Petrov','AP','#B45309')">
       <div class="client-avatar" style="background:#B45309">AP</div>
@@ -605,6 +641,7 @@ body {
           <span class="badge badge-confirmed" style="font-size:10px;padding:2px 7px">Intermediate</span>
         </div>
       </div>
+      <button class="delete-btn" onclick="event.stopPropagation();deleteClient(this)" title="Delete">&#10005;</button>
     </div>
     <div class="client-card" onclick="openClient('Lily Thompson','LT','#BE185D')">
       <div class="client-avatar" style="background:#BE185D">LT</div>
@@ -616,6 +653,7 @@ body {
           <span class="badge badge-group" style="font-size:10px;padding:2px 7px">Beginner</span>
         </div>
       </div>
+      <button class="delete-btn" onclick="event.stopPropagation();deleteClient(this)" title="Delete">&#10005;</button>
     </div>
     <div class="client-card" onclick="openClient('Daniel Park','DP','#0369A1')">
       <div class="client-avatar" style="background:#0369A1">DP</div>
@@ -627,6 +665,7 @@ body {
           <span class="badge badge-pending" style="font-size:10px;padding:2px 7px">Advanced</span>
         </div>
       </div>
+      <button class="delete-btn" onclick="event.stopPropagation();deleteClient(this)" title="Delete">&#10005;</button>
     </div>
     <div class="client-card" onclick="openClient('Nina Volkov','NV','#6D28D9')">
       <div class="client-avatar" style="background:#6D28D9">NV</div>
@@ -638,6 +677,7 @@ body {
           <span class="badge badge-group" style="font-size:10px;padding:2px 7px">Intermediate</span>
         </div>
       </div>
+      <button class="delete-btn" onclick="event.stopPropagation();deleteClient(this)" title="Delete">&#10005;</button>
     </div>
   </div>
   <button class="fab" onclick="openModal('add-client-modal')">
@@ -692,20 +732,45 @@ body {
   <div style="padding:16px">
   <div class="section-title">My info</div>
   <div class="settings-row">
-    <div class="settings-item">
+    <div class="settings-item" style="cursor:pointer" onclick="editSetting(this)">
       <svg class="settings-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="settings-label">Coach name</span><span class="settings-value">Yanis</span>
       <svg class="settings-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
-    <div class="settings-item">
+    <div class="settings-item" style="cursor:pointer" onclick="editSetting(this)">
       <svg class="settings-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.4a16 16 0 0 0 6.29 6.29l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <span class="settings-label">SMS phone</span><span class="settings-value">+1 (917) 555-0100</span>
       <svg class="settings-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
-    <div class="settings-item">
+    <div class="settings-item" style="cursor:pointer" onclick="editSetting(this)">
       <svg class="settings-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <span class="settings-label">Club</span><span class="settings-value">Matchpoint Bay Pkwy</span>
       <svg class="settings-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+
+  <div class="section-title">Appearance</div>
+  <div class="settings-row" style="padding:14px 16px;gap:10px;display:block">
+    <div style="font-size:13px;color:var(--text2);margin-bottom:10px">Theme</div>
+    <div class="theme-switcher">
+      <button class="theme-btn" data-theme="light" onclick="applyTheme('light')">☀️ Light</button>
+      <button class="theme-btn active" data-theme="auto" onclick="applyTheme('auto')">🌓 Auto</button>
+      <button class="theme-btn" data-theme="dark" onclick="applyTheme('dark')">🌙 Dark</button>
+    </div>
+    <div style="font-size:12px;color:var(--text3);margin-top:8px">Auto: light 7am–8pm, dark 8pm–7am</div>
+  </div>
+
+  <div class="section-title">Timezone</div>
+  <div class="settings-row" style="padding:14px 16px">
+    <div style="width:100%">
+      <select class="field-select" id="tzSelect" onchange="setTimezone(this.value)" style="width:100%">
+        <option value="America/New_York">🇺🇸 Eastern Time — New York (ET)</option>
+        <option value="America/Chicago">🇺🇸 Central Time (CT)</option>
+        <option value="America/Denver">🇺🇸 Mountain Time (MT)</option>
+        <option value="America/Los_Angeles">🇺🇸 Pacific Time (PT)</option>
+        <option value="America/Anchorage">🇺🇸 Alaska Time (AKT)</option>
+        <option value="Pacific/Honolulu">🇺🇸 Hawaii Time (HT)</option>
+      </select>
     </div>
   </div>
   <div class="section-title">SMS Reminders</div>
@@ -888,6 +953,17 @@ body {
 </div><!-- /pages-wrap-mobile -->
 </div><!-- /app-shell -->
 
+<!-- MODAL: CONFIRM DELETE -->
+<div class="modal-overlay" id="confirm-modal" onclick="closeModal(event,this)" style="display:flex;align-items:center;justify-content:center">
+  <div class="confirm-box" onclick="event.stopPropagation()">
+    <div class="confirm-msg" id="confirmMsg">Are you sure?</div>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" onclick="document.getElementById('confirm-modal').classList.remove('open')">Cancel</button>
+      <button class="confirm-delete" id="confirmYes">Delete</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── CONSTANTS ──
 const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -1061,7 +1137,7 @@ function renderLesson(l, dateStr, idx) {
         <div class="lc-name">${l.name}</div>
         <div class="lc-detail">${l.detail}</div>
       </div>
-      <div>${badge}</div>
+      <div style="display:flex;align-items:center;gap:6px">${badge}<button class="delete-btn" onclick="event.stopPropagation();deleteLesson('${dateStr}',${idx})" title="Delete">&#10005;</button></div>
     </div>${smsRow}
   </div>`;
 }
@@ -1069,6 +1145,27 @@ function renderLesson(l, dateStr, idx) {
 function toggleDay(header) {
   header.classList.toggle('expanded');
   header.nextElementSibling.classList.toggle('hidden');
+}
+
+// ── LESSON DELETE ──
+function deleteLesson(dateStr, idx) {
+  showConfirm('Delete this lesson?', () => {
+    const l = schedule[dateStr][idx];
+    if (l.status === 'pending') updateSmsCount(-1);
+    schedule[dateStr].splice(idx, 1);
+    if (schedule[dateStr].length === 0) delete schedule[dateStr];
+    renderCalendar(); renderCal();
+  });
+}
+
+// ── CONFIRM DIALOG ──
+function showConfirm(message, onYes) {
+  document.getElementById('confirmMsg').textContent = message;
+  document.getElementById('confirm-modal').classList.add('open');
+  document.getElementById('confirmYes').onclick = () => {
+    document.getElementById('confirm-modal').classList.remove('open');
+    onYes();
+  };
 }
 
 // ── LESSON ACTIONS ──
@@ -1143,6 +1240,63 @@ function openClient(name, initials, color) {
   openModal('client-detail-modal');
 }
 
+// ── DELETE CLIENT ──
+function deleteClient(btn) {
+  const card = btn.closest('.client-card');
+  const name = card.querySelector('.client-name').textContent;
+  showConfirm(`Remove ${name}?`, () => { card.remove(); });
+}
+
+// ── SETTINGS: EDIT FIELD ──
+function editSetting(el) {
+  const valueEl = el.querySelector('.settings-value');
+  if (!valueEl) return;
+  const current = valueEl.textContent;
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = current;
+  input.className = 'field-input';
+  input.style.cssText = 'flex:1;margin:0 8px;font-size:14px;padding:6px 10px;height:32px';
+  valueEl.replaceWith(input);
+  input.focus(); input.select();
+  function save() {
+    const newVal = input.value.trim() || current;
+    const span = document.createElement('span');
+    span.className = 'settings-value';
+    span.textContent = newVal;
+    input.replaceWith(span);
+    // Update top bar coach name if changed
+    if (el.querySelector('.settings-label') && el.querySelector('.settings-label').textContent === 'Coach name') {
+      document.querySelector('.logo span') && (document.querySelector('.logo').innerHTML = 'CoachDesk <span>· '+newVal+'</span>');
+    }
+  }
+  input.addEventListener('blur', save);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') input.blur(); if (e.key === 'Escape') { input.value = current; input.blur(); } });
+}
+
+// ── THEME ──
+function applyTheme(mode) {
+  localStorage.setItem('cd-theme', mode);
+  if (mode === 'dark') { document.documentElement.setAttribute('data-theme','dark'); }
+  else if (mode === 'light') { document.documentElement.setAttribute('data-theme','light'); }
+  else {
+    document.documentElement.removeAttribute('data-theme');
+    // Auto: dark 8pm–7am, light otherwise
+    autoTheme();
+  }
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === mode));
+}
+function autoTheme() {
+  const h = new Date().getHours();
+  const dark = h >= 20 || h < 7;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+}
+
+// ── TIMEZONE ──
+function setTimezone(tz) {
+  localStorage.setItem('cd-tz', tz);
+}
+
 // ── FILTERS ──
 function setFilter(chip) {
   document.querySelectorAll('#clientFilters .chip').forEach(c => c.classList.remove('active'));
@@ -1168,4 +1322,19 @@ function switchTab(tab, btn) {
 // ── INIT ──
 renderCal();
 renderCalendar();
+
+// Init theme
+(function() {
+  const saved = localStorage.getItem('cd-theme') || 'auto';
+  applyTheme(saved);
+  // If auto, refresh every minute
+  if (saved === 'auto') setInterval(autoTheme, 60000);
+})();
+
+// Init timezone
+(function() {
+  const savedTz = localStorage.getItem('cd-tz') || 'America/New_York';
+  const sel = document.getElementById('tzSelect');
+  if (sel) sel.value = savedTz;
+})();
 </script>
