@@ -79,6 +79,10 @@ body {
 /* Hide desktop nav on mobile */
 .desktop-nav { display: none; }
 
+/* Pages: only active page is visible */
+.page { display: none; }
+.page.active { display: block; }
+
 /* ── DESKTOP LAYOUT ── */
 @media (min-width: 768px) {
   body {
@@ -1128,6 +1132,8 @@ function switchTab(tab, btn) {
     if (b === btn || b.getAttribute('data-tab') === tab) b.classList.add('active');
   });
   btn.classList.add('active');
+  // Scroll to top when switching tabs
+  window.scrollTo(0, 0);
 }
 
 // ── INIT ──
