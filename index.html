@@ -260,6 +260,7 @@ body {
 .confirm-actions button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
 .confirm-cancel { background: var(--surface2); color: var(--text2); }
 .confirm-delete { background: var(--red); color: #fff; }
+#confirm-modal.open { display: flex; align-items: center; justify-content: center; }
 
 .page { display: none; }
 .page.active { display: block; }
@@ -954,7 +955,7 @@ body {
 </div><!-- /app-shell -->
 
 <!-- MODAL: CONFIRM DELETE -->
-<div class="modal-overlay" id="confirm-modal" onclick="closeModal(event,this)" style="display:flex;align-items:center;justify-content:center">
+<div class="modal-overlay" id="confirm-modal" onclick="closeModal(event,this)">
   <div class="confirm-box" onclick="event.stopPropagation()">
     <div class="confirm-msg" id="confirmMsg">Are you sure?</div>
     <div class="confirm-actions">
